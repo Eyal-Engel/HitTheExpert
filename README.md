@@ -1,5 +1,6 @@
-dev: Eyal Engel
+main dev: Eyal Engel
 seconde dev: ChatGPT
+pm: Yossi Yehezkel
 
 to run this app localy:
 pip i 0-r requirements.txt
