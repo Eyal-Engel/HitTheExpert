@@ -1,0 +1,33 @@
+# Byte-compiled / optimized Python files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment
+venv/
+env/
+.Python
+pip-log.txt
+pip-delete-this-directory.txt
+
+# IDEs and editors
+.idea/
+.vscode/
+
+# Logs and databases
+*.log
+*.sql
+*.sqlite
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Ignore local configuration files (modify as needed)
+config.json
+secrets.ini
+
+# Ignore deployment files and directories (modify as needed)
+node_modules/
+dist/
+build/
