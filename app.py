@@ -37,7 +37,6 @@ def get_data():
             })
     return jsonify(data)
 
-
 @app.route('/submit_proposal', methods=['POST'])
 def submit_proposal():
     data = request.get_json()
@@ -57,4 +56,4 @@ def submit_proposal():
 
 if __name__ == '__main__':
     init_db()
-    app.run(debug=True)
+    app.run(port=69, debug=True)
