@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>הצעות ייעול</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+      }
+      .form-group {
+        margin-bottom: 15px;
+      }
+      label {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 5px;
+      }
+      input[type="text"],
+      input[type="tel"],
+      select,
+      textarea {
+        width: 100%;
+        padding: 8px;
+        font-size: 16px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+        direction: rtl;
+      }
+      button {
+        background-color: #4caf50;
+        color: white;
+        padding: 12px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+      }
+      button:hover {
+        background-color: #45a049;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>הצעות ייעול</h2>
+    <form id="dataForm" method="post">
+      <div class="form-group">
+        <label for="name">שם:</label>
+        <input type="text" id="name" name="name" required />
+      </div>
+      <div class="form-group">
+        <label for="phone">טלפון:</label>
+        <input
+          type="tel"
+          id="phone"
+          name="phone"
+          pattern="[0-9]{10}"
+          required
+        />
+      </div>
+      <div class="form-group">
+        <label for="category">בחירת קטגוריה לשאלה:</label>
+        <select id="category" name="category" required>
+          <option value="">בחר קטגוריה</option>
+          <option value="נשק">נשק</option>
+          <option value="ארמון">ארמון</option>
+          <option value="יחידה סדירה">יחידה סדירה</option>
+          <!-- ניתן להוסיף אפשרויות נוספות כפי שנדרש -->
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="responder">בחירת מגיב:</label>
+        <select id="responder" name="responder" required>
+          <option value="">בחר מגיב</option>
+          <option value='רנ"ג ניר סוויסה'>רנ&quot;ג ניר סוויסה</option>
+          <option value='רנ"ג ליאור כהן'>רנ&quot;ג ליאור כהן</option>
+          <option value='רס"ם עומרי אסולין'>רס&quot;ם עומרי אסולין</option>
+          <option value='רס"ן אלעד חן'>רס&quot;ן אלעד חן</option>
+          <!-- ניתן להוסיף אפשרויות נוספות כפי שנדרש -->
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="proposal">הצעת הייעול:</label>
+        <textarea id="proposal" name="proposal" rows="4" required></textarea>
+      </div>
+      <button type="submit">שלח</button>
+    </form>
+    <script>
+      document
+        .getElementById("dataForm")
+        .addEventListener("submit", function (event) {
+          event.preventDefault();
+
+          const formData = new FormData(event.target);
+          const data = {};
+          let isValid = true;
+
+          formData.forEach((value, key) => {
+            if (!value) {
+              isValid = false;
+              alert(`Field ${key} is required`);
+              return;
+            }
+            data[key] = value;
+          });
+
+          const phonePattern = /^[0-9]{10}$/;
+          if (!phonePattern.test(data["phone"])) {
+            isValid = false;
+            alert("Invalid phone number. It must be 10 digits.");
+          }
+
+          if (!isValid) {
+            return;
+          }
+
+          fetch("/submit_proposal", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              if (data.message === "Data saved successfully!") {
+                document.getElementById("dataForm").reset();
+              }
+              alert(data.message);
+            })
+            .catch((error) => {
+              console.error("Error:", error);
+            });
+        });
+    </script>
+  </body>
+</html>
