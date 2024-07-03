@@ -56,4 +56,4 @@ def submit_proposal():
 
 if __name__ == '__main__':
     init_db()
-    app.run(port=69, debug=True)
+    app.run(port=8080, debug=True)
